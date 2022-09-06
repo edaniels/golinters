@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/edaniels/golinters/deferfor"
 	"github.com/edaniels/golinters/errresp"
+	"github.com/edaniels/golinters/fatal"
 	"github.com/edaniels/golinters/mustcheck"
 	"github.com/edaniels/golinters/printf"
 	"github.com/edaniels/golinters/println"
@@ -18,6 +19,7 @@ func main() {
 		mustcheck.Analyzer,
 		deferfor.Analyzer,
 		errresp.Analyzer,
+		fatal.Analyzer,
 		uselessf.Analyzer,
 	)
 }
