@@ -1,4 +1,9 @@
+# golangci-lint and gofumpt are installed via mise instead of as Go tool
+# dependencies to avoid bloating go.mod with their transitive dependencies
+# and to prevent circular references (this module is used as a golangci-lint
+# plugin, so it's simpler to not depend on golangci-lint itself).
 [tools]
 go = "1.26"
 golangci-lint = "2.10"
-gofumpt = "latest"
+gofumpt = "0.9.2"
+just = "1.45.0"
