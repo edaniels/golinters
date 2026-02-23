@@ -1,0 +1,28 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - println
+    - printf
+    - uselessf
+    - deferfor
+    - errresp
+    - mustcheck
+    - fatal
+  settings:
+    custom:
+      println:
+        type: module
+      printf:
+        type: module
+      uselessf:
+        type: module
+      deferfor:
+        type: module
+      errresp:
+        type: module
+      mustcheck:
+        type: module
+      fatal:
+        type: module

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/edaniels/golinters/println"
-
 	"golang.org/x/tools/go/analysis/singlechecker"
+
+	"github.com/edaniels/golinters/println"
 )
 
 func main() {

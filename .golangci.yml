@@ -1,0 +1,77 @@
+version: "2"
+run:
+  modules-download-mode: readonly
+  tests: true
+linters:
+  default: all
+  disable:
+    - asasalint # poorly documented
+    - contextcheck # useful only sometimes but not often enough
+    - cyclop # cover in review
+    - exhaustruct # not helpful
+    - funcorder # not helpful
+    - funlen # cover in review
+    - gochecknoglobals # not practical
+    - gochecknoinits # not practical
+    - gocyclo # cover in review
+    - godox # not helpful
+    - interfacebloat # not practical
+    - ireturn # not helpful
+    - maintidx # cover in review
+    - mnd # not good
+    - nestif # I think it's buggy; gocognit is a little better
+    - noinlineerr # not helpful
+    - paralleltest # not helpful
+    - testpackage # not helpful
+    - varnamelen # cover in review
+    - wsl # replaced by wsl_5
+  settings:
+    depguard:
+      rules:
+        main:
+          deny:
+            - pkg: "github.com/pkg/errors"
+              desc: use standard errors package
+    errcheck:
+      check-blank: true
+    govet:
+      disable:
+        - fieldalignment
+      enable-all: true
+    lll:
+      line-length: 140
+  exclusions:
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      # go/analysis analyzers always return (nil, nil) by convention
+      - linters: [nilnil]
+        text: "return both a `nil` error and an invalid value"
+      # pass.ResultOf type assertions are guaranteed safe by go/analysis
+      - linters: [forcetypeassert]
+        text: "type assertion must be checked"
+      # package name "println" triggers print-ban and predeclared-shadow patterns
+      - linters: [forbidigo, predeclared]
+        path: println/
+      # errresp has inherently complex control flow analysis
+      - linters: [gocognit]
+        path: errresp/
+    paths:
+      - testdata$
+      - testproject$
+formatters:
+  enable:
+    - gci
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/edaniels/golinters)
+  exclusions:
+    paths:
+      - testdata$
+      - testproject$

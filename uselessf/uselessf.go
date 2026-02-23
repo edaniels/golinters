@@ -14,13 +14,13 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name:     "errorf",
+	Name:     "uselessf",
 	Doc:      "reports useless prints with f usages",
 	Run:      run,
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 }
 
-func run(pass *analysis.Pass) (interface{}, error) {
+func run(pass *analysis.Pass) (any, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
 	nodeFilter := []ast.Node{
@@ -45,23 +45,25 @@ func run(pass *analysis.Pass) (interface{}, error) {
 
 		if len(ce.Args) == 1 {
 			if i, ok := se.X.(*ast.Ident); ok && i.String() != "fmt" && strings.HasPrefix(se.Sel.String(), "Errorf") {
-				pass.Reportf(se.Sel.Pos(), "uesless fmt.Errorf usage found; use errors.New instead")
+				pass.Reportf(se.Sel.Pos(), "useless fmt.Errorf usage found; use errors.New instead")
+
 				return
 			}
+
 			pass.Reportf(se.Sel.Pos(), "useless print with f usage found %q; use non-f version",
 				render(pass.Fset, se.Sel))
-
 		}
 	})
 
 	return nil, nil
 }
 
-// render returns the pretty-print of the given node
-func render(fset *token.FileSet, x interface{}) string {
+// render returns the pretty-print of the given node.
+func render(fset *token.FileSet, x any) string {
 	var buf bytes.Buffer
 	if err := printer.Fprint(&buf, fset, x); err != nil {
 		panic(err)
 	}
+
 	return buf.String()
 }

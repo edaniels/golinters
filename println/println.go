@@ -2,10 +2,7 @@
 package println
 
 import (
-	"bytes"
 	"go/ast"
-	"go/printer"
-	"go/token"
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
@@ -19,7 +16,7 @@ var Analyzer = &analysis.Analyzer{
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 }
 
-func run(pass *analysis.Pass) (interface{}, error) {
+func run(pass *analysis.Pass) (any, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
 	nodeFilter := []ast.Node{
@@ -40,18 +37,9 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		if i.String() != "println" {
 			return
 		}
+
 		pass.Reportf(i.Pos(), "println usage found")
-		return
 	})
 
 	return nil, nil
-}
-
-// render returns the pretty-print of the given node
-func render(fset *token.FileSet, x interface{}) string {
-	var buf bytes.Buffer
-	if err := printer.Fprint(&buf, fset, x); err != nil {
-		panic(err)
-	}
-	return buf.String()
 }

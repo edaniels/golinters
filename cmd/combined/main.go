@@ -1,6 +1,8 @@
 package main
 
 import (
+	"golang.org/x/tools/go/analysis/unitchecker"
+
 	"github.com/edaniels/golinters/deferfor"
 	"github.com/edaniels/golinters/errresp"
 	"github.com/edaniels/golinters/fatal"
@@ -8,8 +10,6 @@ import (
 	"github.com/edaniels/golinters/printf"
 	"github.com/edaniels/golinters/println"
 	"github.com/edaniels/golinters/uselessf"
-
-	"golang.org/x/tools/go/analysis/unitchecker"
 )
 
 func main() {

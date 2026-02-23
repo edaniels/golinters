@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/edaniels/golinters/deferfor"
-
 	"golang.org/x/tools/go/analysis/singlechecker"
+
+	"github.com/edaniels/golinters/deferfor"
 )
 
 func main() {
